@@ -8,7 +8,7 @@ const path = require('path')
 const wss = new WebSocketServer({ port: 3001 });
 
 app.listen(3000, () => {
-    console.log("Server running on port 3000");
+    console.log("Server running on port 3001");
 });
 app.use(
     express.urlencoded({
@@ -52,6 +52,7 @@ app.post("/temperature", (req, res, next) => {
 });
 
 app.get('/dashboard', async (req, res) => {
+    /*
     async function run() {
 		const client = new MongoClient(uri, {useUnifiedTopology: true});
         try {
@@ -82,6 +83,8 @@ app.get('/dashboard', async (req, res) => {
     //use await for wating the promise
     var finalTemp = await run().catch(console.dir);
     res.send('Hello World! The last temperature is: '+finalTemp);
+    */
+     res.sendFile(path.join(__dirname + '/index.html'));
 })
 
 wss.on('connection', function connection(ws) {
