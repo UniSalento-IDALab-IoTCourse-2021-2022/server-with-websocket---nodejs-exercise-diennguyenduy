@@ -1,8 +1,11 @@
 ﻿const express = require("express");
+import { WebSocketServer } from 'ws';
 const app = express();
 const MongoClient = require('mongodb').MongoClient;
 const uri = 'mongodb://localhost/';
+const path = require('path')
 
+const wss = new WebSocketServer({ port: 3001 });
 
 app.listen(3000, () => {
     console.log("Server running on port 3000");
@@ -80,3 +83,11 @@ app.get('/dashboard', async (req, res) => {
     var finalTemp = await run().catch(console.dir);
     res.send('Hello World! The last temperature is: '+finalTemp);
 })
+
+wss.on('connection', function connection(ws) {
+    ws.on('message', function message(data) {
+        console.log('received: %s', data);
+    });
+
+    ws.send('something');
+});
